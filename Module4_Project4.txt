@@ -1,0 +1,244 @@
+import random
+class anew():  
+    def g(self):
+        self.fname=input("Enter first  name:")
+        self.lname=input("Enter last name:")
+        self.dob=input("Enter date of birth:")
+        self.ph=input("Enter phone number:")
+        if(len(self.ph)==10):
+            print("phone number is validated")
+            self.pw=input("Enter the password\n(note:there must be eight character the first character should start with number ")
+            if((len(self.pw)==8)and((self.pw[0]=='0')or (self.pw[0]=='1')or (self.pw[0]=='2')or(self.pw[0]=='3')or(self.pw[0]=='4')or(self.pw[0]=='5')or(self.pw[0]=='6')or(self.pw[0]=='7')or(self.pw[0]=='8')or(self.pw[0]=='9'))):
+                print("Password created")
+                self.i=0
+                for self.i in range(1):
+                    print("your account is created")
+                    print("your account number =",random.randrange(6000,10000))
+            else:
+                print("Incorrect password")
+        else:
+            print("Invalid phone number")
+            print("The phone number must have 10 digits ")
+class account(anew):
+    def __init__(self):
+        self.cname=None
+        self.bal=0
+        self.amt=0
+    def pwdvalidate(self): 
+        self.pw=input("Enter the password")
+        if((len(self.pw)==8)and((self.pw[0]=='0')or (self.pw[0]=='1')or (self.pw[0]=='2')or(self.pw[0]=='3')or(self.pw[0]=='4')or(self.pw[0]=='5')or(self.pw[0]=='6')or(self.pw[0]=='7')or(self.pw[0]=='8')or(self.pw[0]=='9'))):
+            print("Password is correct")
+        else:
+            print("Incorrect password")
+            print("Retype your password")
+            self.pwdvalidate()
+    def entacc(self):
+        self.cname=input("Enter customer name\n")
+        self.pwdvalidate()
+        self.i=0
+        for self.i in range(1):
+            self.accno=random.randrange(9000,10000)
+            print("your account number =",self.accno)
+            for self.j in range(1):
+                self.bal=random.randrange(1,50000)
+                print("current balance =",self.bal)
+    def dispacc(self,str):
+        print("You are a valid ",str," account type customer")
+        print("Customer name",self.cname)
+        print("Account number",self.accno)
+        print("Balance",self.bal)
+    def deposit(self):
+        self.amt=int(input("\n Enter the amount to deposit:"))
+        self.bal=self.bal+self.amt
+class savacc(account):
+    def __init__(self):
+        self.inter=0
+        self.time=0
+        self.rate1=10
+    def compint(self):
+        self.time1=int(input("\n Enter how long do you need compound interest for your savings account="))
+        self.inter=int(self.bal*pow(1+self.rate1/100.00,self.time1))
+        print("\n The interest will be credited in your account ",self.inter)
+    def updatebal(self):
+        self.bal=self.bal+self.inter
+    def withdrawal(self):
+        self.amt=int(input(" Enter amount to withdrawal"))
+        if (self.bal>=self.amt):
+            self.bal=self.bal-self.amt
+        else:
+            print("\n The amount cannot be withdrawn")
+class curacc(account):
+    def withdrawal(self):
+        self.amt=0
+        self.amt=int(input("Enter the amount to be withdrawn"))
+        if (self.bal<500):
+            self.penal=50
+            print("penalty=",self.penal)
+            self.bal=self.bal-self.penal
+            self.ret1=0
+            print("After Penalty Your current balance =",self.bal)
+        elif(self.bal>500):
+            self.ret1=1
+            print(" No penalty imposed")        
+        if(self.ret1==1):
+            if(self.bal>self.amt):
+                self.bal=self.bal-self.amt
+                print("Your current balance =",self.bal)
+            else:
+                print("The amount cannot be withdrawn")
+        else:
+            print("You have minimum balance")
+s=savacc() 
+c=curacc()
+a=anew()
+s1="current"
+s2="savings"
+n=int(input("1.Nieuwe login(Are you new?)\n2.Oude login(Existant)\n"))
+if (n==1):
+    a.g()
+elif (n==2):    
+    d='y'
+    while(d=='y'):
+        print("\t\t\t Main menu")
+        print("1.Current account")
+        print("2.Savings account")
+        print("3.Exit")
+        ch=int(input("Enter your choice:"))
+        if (ch==1):
+            c.entacc()
+            c.withdrawal()
+            c.dispacc(s1)    
+        elif ch==2:
+            s.entacc()
+            c=1
+            while(c==1):
+                print("\n\t\t\t sub menu\n1.Withdrawal\n2.Deposit\n3.Enquiry about interest")
+                op=int(input("Enter your choice"))
+                if op==1:             
+                    s.withdrawal()
+                    s.dispacc(s2)          
+                elif op==2:
+                    s.deposit()
+                    s.dispacc(s2)                 
+                elif op==3:                    
+                    s.compint() 
+                c=int(input("Do you want to continue the same service again?\n(press 1 for yes and 0 for no )"))
+        
+        elif ch==3:
+            exit
+        d=input("do you want to continue ?\n(press 'y' for yes and 'n' for no)")
+
+OUTPUT:
+
+    for a new customer:
+
+1.Nieuwe login(Are you new?)
+2.Oude login(Existant)
+1
+Enter first  name:dharu
+Enter last name:dharu
+Enter date of birth:04.10.1998
+Enter phone number:9715253583
+phone number is validated
+Enter the password
+(note:there must be eight character the first character should start with number 23456789
+Password created
+your account is created
+your account number = 6508
+    
+    for a existing customer:
+
+1.Nieuwe login(Are you new?)
+2.Oude login(Existant)
+2
+			 Main menu
+1.Current account
+2.Savings account
+3.Exit
+Enter your choice:1
+Enter customer name
+dharu
+Enter the password23456789
+Password is correct
+your account number = 9524
+current balance = 45143
+Enter the amount to be withdrawn2000
+ No penalty imposed
+Your current balance = 43143
+You are a valid  current  account type customer
+Customer name dharu
+Account number 9524
+Balance 43143
+do you want to continue ?
+(press 'y' for yes and 'n' for no)y
+			 Main menu
+1.Current account
+2.Savings account
+3.Exit
+Enter your choice:2
+Enter customer name
+dharu
+Enter the password23456789
+Password is correct
+your account number = 9470
+current balance = 3912
+
+			 sub menu
+1.Withdrawal
+2.Deposit
+3.Enquiry about interest
+Enter your choice1
+ Enter amount to withdrawal2000
+You are a valid  savings  account type customer
+Customer name dharu
+Account number 9470
+Balance 1912
+Do you want to continue the same service again?
+(press 1 for yes and 0 for no )1
+
+			 sub menu
+1.Withdrawal
+2.Deposit
+3.Enquiry about interest
+Enter your choice2
+
+ Enter the amount to deposit:4500
+You are a valid  savings  account type customer
+Customer name dharu
+Account number 9470
+Balance 6412
+Do you want to continue the same service again?
+(press 1 for yes and 0 for no )1
+
+			 sub menu
+1.Withdrawal
+2.Deposit
+3.Enquiry about interest
+Enter your choice3
+
+ Enter how long do you need compound interest for your savings account=4
+
+ The interest will be credited in your account  9387
+Do you want to continue the same service again?
+(press 1 for yes and 0 for no )
+
+
+                
+                                
+        
+                    
+    
+    
+
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
+    

@@ -1,0 +1,350 @@
+#import cx_Oracle
+class SignupCustomer(): 
+    #Reading DATA
+    def __init__(self,add,acc):
+        self.cust_accno = acc
+        self.cust_address = add
+    def getinitial(self):
+        self.fname=input("Enter first  name:")
+        self.lname=input("Enter last name:")
+        valid, ch = 0,'Y'
+        while ch == 'Y':
+            if valid == 0:
+                self.pw=input("Enter password\n(Note:Password should have length of 8,Accepts both numeric and character")
+                if(len(self.pw)==8):
+                    print("Password Accepted")
+                    valid = 1
+                    ch = 'N'
+                    return valid
+            #Correct
+            #===================================================================
+            # con=cx_Oracle.connect("system/sel1975@XE")
+            # cur = con.cursor()        
+            # self.custaccno =SignupCustomer.cust_accno
+            # cur.execute("insert into customer values(:1,:2,:3,:4)",(self.fname,self.lname,self.custaccno,self.pw))
+            # print("your account number is:", self.custaccno)
+            # SignupCustomer.cust_accno += 1
+            # con.commit()
+            # con.close()
+            #===================================================================
+                else:
+                    print("Incorrect password & It must have length of 8")
+                    valid = 0
+                    ch = input("Do you want to SignUp Again? Type Y for Yes, Otherwise Type N")
+                    
+            else:
+                print("Thank You. Visit Again!!")
+                return valid
+                      
+    def getaddress(self):
+        return self.cust_address
+    def getaccid(self):
+        return self.cust_accno
+    #To be checked
+    #===========================================================================
+    # def insert_first(self):
+    #     con=cx_Oracle.connect("system/sel1975@XE")
+    #     cur = con.cursor()        
+    #     self.custaccno =anew.cust_accno
+    #     cur.execute("insert into customer values(:1,:2,:3,:4)",(self.fname,self.lname,self.custaccno,self.pw))
+    #     anew.cust_accno += 1
+    #     con.commit()
+    #     con.close()
+    #===========================================================================
+class Address:
+    def setaddress(self):
+        self.adline1=input("Enter Address Line 1:")
+        self.adline2=input("Enter Address Line 2:")
+        self.city=input("Enter City:")
+        self.state=input("Enter State")
+        ch = 'Y'
+        while ch == 'Y':
+            self.pincodecheck=input("Enter Pincode")
+            if(len(self.pincodecheck)==6):
+                self.validpincode = int(self.pincodecheck)
+                ch = 'N'
+            else:
+                print("Enter 6 digit Number as pincode")
+        print("Address Added")
+
+
+class SigninCustomer(SignupCustomer):
+    def signdetails(self,cname,cpwd):
+        self.cuname = cname
+        self.cupwd = cpwd
+    #===========================================================================
+    # def getrecord(self):
+    #     con=cx_Oracle.connect("selvi/sel1975@XE")
+    #     cur = con.cursor()
+    #     name = cur.execute("select fname from customer")
+    #     pwd = cur.execute("select pwd from customer")
+    #     con.commit()
+    #     con.close() 
+    #===========================================================================
+    def pwdvalidate(self):
+        s = 0
+        ans, count = 'Y',1
+        while ans == 'Y' :
+            if count < 3:
+                if self.cuname == 'selvi' and self.cupwd == 'selvisiv':
+                    print("Your are Authenticated. Go Ahead....")
+                    s = 1
+                    ans = 'N'
+                    return s
+                else:
+                    print("Incorrect user name and password!!!Retype your name and Password ")
+                    count += 1
+                    self.cuname = input("Enter your Name")
+                    self.cupwd = input("Enter your Pwd")
+            else:
+                print("Your Account is Blocked.!!!")
+                ans = 'N'
+                break
+        return s
+    def statuscheck(self,acno,scheck):
+        self.c_accno = acno
+        self.c_statuscheck = scheck
+        ansstatus = 'Y'
+        if self.c_statuscheck == 'Open':
+            return ansstatus
+        else:
+            ansstatus = 'N'
+            return ansstatus
+        
+        
+class SigninAdmin():
+    def signdetails(self,adname,adpwd):
+        self.adminname = adname
+        self.adminpwd = adpwd
+    #===========================================================================
+    # def getrecord(self):
+    #     con=cx_Oracle.connect("selvi/sel1975@XE")
+    #     cur = con.cursor()
+    #     name = cur.execute("select fname from customer")
+    #     pwd = cur.execute("select pwd from customer")
+    #     con.commit()
+    #     con.close() 
+    #===========================================================================
+    def pwdvalidate(self):
+        s = 0
+        ans, count = 'Y',1
+        while ans == 'Y' :
+            if count < 3:
+                if self.adminname == 'selvi' and self.adminpwd == 'selvisiv':
+                    print("Your are the Admin. Go Ahead....")
+                    s = 1
+                    ans = 'N'
+                    return s
+                else:
+                    print("Incorrect user name and password!!!Retype your name and Password ")
+                    count += 1
+                    self.cuname = input("Enter your Name")
+                    self.cupwd = input("Enter your Pwd")
+            else:
+                print("Have you forgot your Password.Please Contact Administrator.!!!")
+                ans = 'N'
+                break
+        return s        
+        
+        
+
+
+               
+class Account:
+    cust_accno = 9999999
+    #Reading DATA
+    def __init__(self):
+        Account.cust_accno += 1
+        self.accstatus = 'Open'
+        self.cust_minamount = 0
+    def setaccid(self):
+        print("your account is created")
+        print("Your Account is Active")
+        return Account.cust_accno
+    def setacctype(self):
+        num = input("Which service you require? Press S for Saving Account or C for Current Account")
+        self.cust_t = num
+        if self.cust_t == 'C':
+            ans = 'N'
+            while ans == 'N':
+                iniamount =int(input("Enter Initial amount"))
+                if iniamount >= 5000:
+                    self.cust_minamount += iniamount
+                    ans = 'Y'
+                else:
+                    print("You are requested to hold minimum balance as Rs.5000")
+    def getacctype(self):
+        return self.cust_t
+    def getminbal(self):
+        return self.cust_minamount
+    def deposit(self,amnt):
+        self.amt = amnt
+        self.cust_minamount = self.cust_minamount + self.amt
+        print("The amount is deposited:",self.cust_minamount)
+    def getaccstatus(self):
+        return self.accstatus
+    
+    
+
+class SavingAccount(Account):
+    def intcal(self):
+        self.inter=int(self.cust_minamount*(7.5/100)*12)
+        self.cust_minamount += self.inter
+        print("\n The interest will be credited in your account ",self.inter)
+        return
+    def withdraw_check(self,no):
+        self.maxwithdraw = no
+        op = 'Y'
+        if self.maxwithdraw >= 10:
+            print("Exceeding No. of Transactions Limit!!!")
+            op = 'N'
+        return op
+    def withdrawal(self):
+        self.amt=int(input(" Enter the withdrawal Amount"))
+        if self.cust_minamount >= self.amt:
+            if self.cust_minamount - self.amt > 0:
+                self.cust_minamount = self.cust_minamount - self.amt
+                print("The amount is successfully withdrawn")
+            else:
+                print("\n The amount cannot be withdrawn")
+        else:
+            print("Your Balance is very Low!!!!")
+ 
+    
+
+class CurrentAccount(Account):
+    def withdrawal(self):
+        self.amt=int(input(" Enter the withdrawal Amount"))
+        if self.cust_minamount >= self.amt:
+            if self.cust_minamount - self.amt > 5000:
+                self.cust_minamount = self.cust_minamount - self.amt
+                print("The amount is successfully withdrawn")
+            else:
+                print("\n The amount cannot be withdrawn")
+        else:
+            print("Your should maintain Minimum Balance !!!!")
+    
+class PrintStatement:
+    def printall(self):
+    #     con=cx_Oracle.connect("selvi/sel1975@XE")
+    #     cur = con.cursor()
+    #     name = cur.execute("select * from Transaction where sysdate=getdate()")
+    #     print (cur.fetchall())
+    #     con.commit()
+    #     con.close()    
+        return
+    def printaccclosed(self,statu):
+        self.acstatus = statu
+    #     con=cx_Oracle.connect("selvi/sel1975@XE")
+    #     cur = con.cursor()
+    #     name = cur.execute("select * from customer where status == Closed")
+    #     print (cur.fetchall())
+    #     con.commit()
+    #     con.close()
+
+#Main Program
+print("Welcome to LSV Bank")
+addobj = Address()
+accobj = Account()
+prinstaobj = PrintStatement()
+newobj = SignupCustomer(addobj,accobj)
+oldobj = SigninCustomer(addobj,accobj)
+savacctobj = SavingAccount()
+curaccobj = CurrentAccount()
+adminobj = SigninAdmin()
+
+option=int(input("Main Menu\n1.SignUp\n2.SignIn\n3.Admin SignIn\n4.Quit"))
+if (option == 1):
+    va = newobj.getinitial()
+    if va == 1:
+        newobj.getaddress().setaddress()
+        print("Your Account Number is:",newobj.getaccid().setaccid())
+        accobj.setacctype()
+        print("Your Account Type is:",accobj.getacctype())
+        print("Your Minimum balance is:",accobj.getminbal())
+    else:
+        exit
+elif (option == 2):
+    name = input("Enter User Name")
+    pwd = input("Enter pwd")
+    oldobj.signdetails(name, pwd)
+    #oldobj.getrecord()
+    existing = oldobj.pwdvalidate() 
+    if existing == 1:  
+        d ='y'
+        while d == 'y':
+            print("Sub Menu\n1.Address Change\n2.Money Deposit\n3.Money Withdrawal\n4.Print Statement\n5.Transfer Money\n6.Account Closure\n7.Log Out")
+            ch=int(input("Enter your choice:"))
+            #if ch == 1:
+            #address Change   
+            if ch == 2:
+                atype = input("Enter Account Type")
+                amount = int(input("Enter the amount to be deposited"))
+                if atype == 'S':
+                    savacctobj.deposit(amount)
+                else:
+                    curaccobj.deposit(amount)
+                    
+                quit
+            elif ch == 3: 
+                atype = input("Enter Account Type") 
+                if atype == 'S':
+                    N = int(input("Enter the no. of Transactions"))
+                    say = savacctobj.withdraw_check(N)
+                    if say == 'Y':
+                        savacctobj.withdrawal() 
+                    else:
+                        quit
+                else:
+                    curaccobj.withdrawal()
+                        
+            elif ch == 4:
+                prinstaobj.printall()
+            elif ch == 5:                    
+                #s.transfer()
+                #s.compint() 
+            elif ch == 6:
+                ano = input("Enter Account NUmber") 
+                sta = input("Enter Account Status")
+                reply = oldobj.statuscheck(ano,sta)
+                if reply == 'Y':
+                    print("Your Account is Closed!!")
+                else:
+                    print("Already Account is Closed")
+                    quit
+            elif ch == 7:
+                exit
+            d=input("do you want to continue ?\n(press 'y' for yes and 'n' for no)")
+    else:
+        print("Please Contact Bank Branch Manager. Thank You!!!")
+        quit    
+elif option == 3:
+    name = input("Enter Your Name")
+    pwd = input("Enter pwd")
+    adminobj.signdetails(name, pwd)
+    existing = adminobj.pwdvalidate() 
+    if existing == 1:  
+        d ='y'
+        while d == 'y':
+            print("Sub Menu\n1.Print Closed Accounts\n2Log Out")
+            ch=int(input("Enter your choice:"))
+            if ch == 1:
+                adminobj.printaccclosed('Closed')
+            elif ch == 2:
+                quit
+        d=input("do you want to continue ?\n(press 'y' for yes and 'n' for no)")
+    else:
+        print("Warning.You are not supposed to do anything!!!")
+elif option == 4:
+    quit()
+    
+
+
+        
+        
+        
+        
+        
+        
+        
+    

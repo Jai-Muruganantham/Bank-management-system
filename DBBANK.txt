@@ -1,0 +1,25 @@
+DROP table CUSTOMER;
+DROP table ACCOUNT;
+DROP table ADDRESS;
+DROP table TRANSACTION;
+DROP table ADMINUSER;
+
+CREATE table CUSTOMER(cnumber number(10) NOT NULL, cfname varchar2(25) NOT NULL,clname varchar2(25) NOT NULL,cpwd varchar2(8) NOT NULL UNIQUE,cminbal number(8,2) NOT NULL,ctype varchar2(1),cphonenum number(10),);
+ALTER table CUSTOMER ADD CONSTRAINT pk_customerID PRIMARY KEY (cnumber,cfname);
+desc CUSTOMER;
+CREATE table ACCOUNT(cnumber number(10) NOT NULL,cminbal number(15) NOT NULL,ctype varchar2(1),opdate date,cldate date,status varchar2(10));
+ALTER table ACCOUNT ADD CONSTRAINT pk_cnumber PRIMARY KEY (cnumber);
+ALTER TABLE CUSTOMER ADD CONSTRAINT fk_cnumber FOREIGN KEY (cnumber) REFERENCES ACCOUNT(cnumber);
+desc ACCOUNT;
+CREATE table ADDRESS(cfname varchar2(25) NOT NULL,cphonenum number(10) NOT NULL UNIQUE,addline1 varchar2(30) NOT NULL,addline2 varchar2(30) NOT NULL,city varchar2(20) NOT NULL, state varchar2(15) NOT NULL,pincode number(6));
+ALTER table ADDRESS ADD CONSTRAINT pk_addressID PRIMARY KEY (cfname,cphonenum);
+ALTER TABLE CUSTOMER ADD CONSTRAINT fk_cphonenum FOREIGN KEY (cphonenum) REFERENCES ADDRESS(cphonenum);
+desc ADDRESS;
+CREATE table TRANSACTION(transid number(10) NOT NULL UNIQUE,cnumber number(10) NOT NULL,ctype varchar2(1) NOT NULL,transdate date,amount number(8,2),nooftrans number(2));
+ALTER table TRANSACTION ADD CONSTRAINT pk_transID PRIMARY KEY (transid,ctype);
+desc TRANSACTION;
+CREATE table ADMINUSER(sfname varchar2(20)NOT NULL UNIQUE,spwd varchar2(30)NOT NULL UNIQUE);
+INSERT INTO ADMINUSER VALUES ('ADITYA','aditya!@#');
+INSERT INTO ADMINUSER VALUES ('SELVI','selvi!@#');
+INSERT INTO ADMINUSER VALUES ('VIGNESH','vignesh!@#');
+desc  ADMINUSER;
